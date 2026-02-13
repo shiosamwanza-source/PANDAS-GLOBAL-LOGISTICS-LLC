@@ -20,21 +20,21 @@ app.get('/', async (req, res) => {
       <head>
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>PANDAS GLOBAL | Smart Logistics</title>
+          <title>PANDAS GLOBAL | Logistics App</title>
           <style>
               body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; margin: 0; padding: 15px; }
               .container { max-width: 1000px; margin: auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-              h1 { color: #1a73e8; text-align: center; margin-bottom: 20px; font-size: 24px; }
+              h1 { color: #1a73e8; text-align: center; margin-bottom: 20px; }
               .form-section { background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 25px; border: 1px solid #e1e4e8; }
-              input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; margin-bottom: 10px; font-size: 16px; }
+              input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; margin-bottom: 10px; }
               button { width: 100%; padding: 15px; background-color: #1a73e8; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
               .search-box { background: #fffde7; border: 2px solid #fbc02d; padding: 15px; border-radius: 10px; margin-bottom: 20px; }
-              .search-box h4 { margin-top: 0; color: #f57f17; }
-              table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
+              table { width: 100%; border-collapse: collapse; margin-top: 10px; }
               th, td { padding: 12px; border-bottom: 1px solid #eee; text-align: left; }
               th { background-color: #1a73e8; color: white; }
-              tr:hover { background-color: #f1f1f1; }
-              @media (max-width: 600px) { th, td { padding: 8px; font-size: 12px; } }
+              .whatsapp-btn { background-color: #25d366; color: white; padding: 8px 12px; border-radius: 5px; text-decoration: none; font-size: 12px; font-weight: bold; display: inline-block; }
+              .whatsapp-btn:hover { background-color: #128c7e; }
+              @media (max-width: 600px) { th, td { padding: 8px; font-size: 11px; } .whatsapp-btn { padding: 5px 8px; } }
           </style>
       </head>
       <body>
@@ -46,23 +46,21 @@ app.get('/', async (req, res) => {
                   <form action="/add-cargo-web" method="POST">
                       <input type="text" name="sender_name" placeholder="Jina la Mtumaji" required>
                       <input type="text" name="cargo_details" placeholder="Maelezo ya Mzigo" required>
-                      <input type="text" name="destination" placeholder="Unakokwenda (Destination)" required>
+                      <input type="text" name="destination" placeholder="Unakokwenda" required>
                       <button type="submit">Hifadhi Taarifa ✅</button>
                   </form>
               </div>
 
               <div class="search-box">
-                  <h4>🔍 Tafuta Mzigo (Search)</h4>
-                  <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Andika jina la mtumaji au unakokwenda...">
+                  <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="🔍 Tafuta kwa jina au unakokwenda...">
               </div>
 
               <h3>Orodha ya Mizigo</h3>
               <table id="cargoTable">
                   <thead>
-                      <tr><th>Mtumaji</th><th>Mzigo</th><th>Destination</th><th>Tarehe</th></tr>
+                      <tr><th>Mtumaji</th><th>Mzigo</th><th>Destination</th><th>Msaada</th></tr>
                   </thead>
-                  <tbody id="tableBody">
-                      </tbody>
+                  <tbody id="tableBody"></tbody>
               </table>
           </div>
 
@@ -71,14 +69,18 @@ app.get('/', async (req, res) => {
               const tableBody = document.getElementById('tableBody');
 
               function displayData(items) {
-                  tableBody.innerHTML = items.map(item => `
-                      <tr>
-                          <td><strong>${item.sender_name}</strong></td>
-                          <td>${item.cargo_details}</td>
-                          <td>${item.destination}</td>
-                          <td>${new Date(item.created_at).toLocaleDateString('sw-TZ')}</td>
-                      </tr>
-                  `).join('');
+                  tableBody.innerHTML = items.map(item => {
+                      const msg = encodeURIComponent("Habari PANDAS GLOBAL, naulizia mzigo wangu wa " + item.cargo_details + " (ID: " + item.id + ")");
+                      const waLink = "https://wa.me/255717872888?text=" + msg;
+                      return `
+                        <tr>
+                            <td><strong>${item.sender_name}</strong></td>
+                            <td>${item.cargo_details}</td>
+                            <td>${item.destination}</td>
+                            <td><a href="${waLink}" class="whatsapp-btn" target="_blank">WhatsApp 💬</a></td>
+                        </tr>
+                      `;
+                  }).join('');
               }
 
               function filterTable() {
@@ -89,8 +91,6 @@ app.get('/', async (req, res) => {
                   );
                   displayData(filtered);
               }
-
-              // Onyesha data mara ya kwanza
               displayData(data);
           </script>
       </body>
@@ -115,4 +115,4 @@ app.post('/add-cargo-web', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 10000;
-app.listen(PORT, () => console.log('PANDAS Smart App is Live!'));
+app.listen(PORT, () => console.log('PANDAS App is Live!'));
