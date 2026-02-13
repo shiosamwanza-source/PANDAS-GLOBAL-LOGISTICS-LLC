@@ -1,6 +1,8 @@
 const express = require('express');
 const { Pool } = require('pg');
 const app = express();
+const ADMIN_PASSWORD = "SADO_PANDAS_2026"; // Hii ndiyo password yako ya Admin
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -9,238 +11,120 @@ const pool = new Pool({
   ssl: { rejectUnauthorized: false }
 });
 
-app.get('/', async (req, res) => {
-  try {
-    const result = await pool.query('SELECT * FROM cargo ORDER BY created_at DESC');
-    const cargoData = JSON.stringify(result.rows);
-
-    res.send(`
-      <!DOCTYPE html>
-      <html lang="sw">
+// 1. UKURASA WA TRACKING (Kwa ajili ya Wateja)
+app.get('/', (req, res) => {
+  res.send(`
+    <html>
       <head>
-          <meta charset="UTF-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>PANDAS GLOBAL | Logistics App</title>
-          <style>
-              body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; margin: 0; padding: 15px; }
-              .container { max-width: 1000px; margin: auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-              h1 { color: #1a73e8; text-align: center; margin-bottom: 20px; }
-              .form-section { background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 25px; border: 1px solid #e1e4e8; }
-              input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; margin-bottom: 10px; }
-              button { width: 100%; padding: 15px; background-color: #1a73e8; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
-              .search-box { background: #fffde7; border: 2px solid #fbc02d; padding: 15px; border-radius: 10px; margin-bottom: 20px; }
-              table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-              th, td { padding: 12px; border-bottom: 1px solid #eee; text-align: left; }
-              th { background-color: #1a73e8; color: white; }
-              .actions { display: flex; gap: 5px; }
-              .whatsapp-btn { background-color: #25d366; color: white; padding: 8px 10px; border-radius: 5px; text-decoration: none; font-size: 11px; font-weight: bold; }
-              .delete-btn { background-color: #dc3545; color: white; padding: 8px 10px; border-radius: 5px; text-decoration: none; font-size: 11px; font-weight: bold; border: none; cursor: pointer; }
-              @media (max-width: 600px) { th, td { padding: 8px; font-size: 11px; } .actions { flex-direction: column; } }
-          </style>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>PANDAS GLOBAL | Track Cargo</title>
+        <style>
+          body { font-family: sans-serif; background: #f0f2f5; text-align: center; padding: 50px 20px; }
+          .track-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); max-width: 400px; margin: auto; }
+          h1 { color: #1a73e8; }
+          input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+          button { width: 100%; padding: 12px; background: #1a73e8; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        </style>
       </head>
       <body>
-          <div class="container">
-              <h1>🐼 PANDAS GLOBAL LOGISTICS</h1>
-              
-              <div class="form-section">
-                  <h3>Sajili Mzigo Mpya</h3>
-                  <form action="/add-cargo-web" method="POST">
-                      <input type="text" name="sender_name" placeholder="Jina la Mtumaji" required>
-                      <input type="text" name="cargo_details" placeholder="Maelezo ya Mzigo" required>
-                      <input type="text" name="destination" placeholder="Unakokwenda" required>
-                      <button type="submit">Hifadhi Taarifa ✅</button>
-                  </form>
-              </div>
-
-              <div class="search-box">
-                  <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="🔍 Tafuta mzigo...">
-              </div>
-
-              <h3>Orodha ya Mizigo</h3>
-              <table>
-                  <thead>
-                      <tr><th>Mtumaji</th><th>Mzigo</th><th>Destination</th><th>Actions</th></tr>
-                  </thead>
-                  <tbody id="tableBody"></tbody>
-              </table>
-          </div>
-
-          <script>
-              const data = ${cargoData};
-              const tableBody = document.getElementById('tableBody');
-
-              function displayData(items) {
-                  tableBody.innerHTML = items.map(item => {
-                      const msg = encodeURIComponent("Habari PANDAS GLOBAL, naulizia mzigo wangu wa " + item.cargo_details + " (ID: " + item.id + ")");
-                      return `
-                        <tr>
-                            <td><strong>${item.sender_name}</strong></td>
-                            <td>${item.cargo_details}</td>
-                            <td>${item.destination}</td>
-                            <td>
-                                <div class="actions">
-                                    <a href="https://wa.me/255717872888?text=${msg}" class="whatsapp-btn" target="_blank">WA 💬</a>
-                                    <button onclick="deleteCargo(${item.id})" class="delete-btn">Futa 🗑️</button>
-                                </div>
-                            </td>
-                        </tr>
-                      `;
-                  }).join('');
-              }
-
-              async function deleteCargo(id) {
-                  if (confirm('Je, una uhakika unataka kufuta taarifa hii?')) {
-                      const response = await fetch('/delete-cargo/' + id, { method: 'DELETE' });
-                      if (response.ok) { window.location.reload(); }
-                  }
-              }
-
-              function filterTable() {
-                  const query = document.getElementById('searchInput').value.toLowerCase();
-                  const filtered = data.filter(item => 
-                      item.sender_name.toLowerCase().includes(query) || 
-                      item.destination.toLowerCase().includes(query)
-                  );
-                  displayData(filtered);
-              }
-              displayData(data);
-          </script>
+        <div class="track-card">
+          <h1>🐼 PANDAS TRACKING</h1>
+          <p>Ingiza Cargo ID yako kufuatilia mzigo</p>
+          <form action="/track" method="GET">
+            <input type="text" name="id" placeholder="Mfano: 101" required>
+            <button type="submit">Fuatilia Sasa</button>
+          </form>
+          <br>
+          <a href="/admin-login" style="font-size: 10px; color: #ccc; text-decoration: none;">Staff Login</a>
+        </div>
       </body>
-      </html>
-    `);
-  } catch (err) {
-    res.status(500).
-
-cat <<EOF > server.js
-const express = require('express');
-const { Pool } = require('pg');
-const app = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false }
+    </html>
+  `);
 });
 
-app.get('/', async (req, res) => {
+// 2. MATOKEO YA TRACKING
+app.get('/track', async (req, res) => {
+  const { id } = req.query;
   try {
-    const result = await pool.query('SELECT * FROM cargo ORDER BY created_at DESC');
-    const cargoData = JSON.stringify(result.rows);
-
-    res.send(`
-      <!DOCTYPE html>
-      <html lang="sw">
-      <head>
-          <meta charset="UTF-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>PANDAS GLOBAL | Logistics App</title>
-          <style>
-              body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; margin: 0; padding: 15px; }
-              .container { max-width: 1000px; margin: auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-              h1 { color: #1a73e8; text-align: center; margin-bottom: 20px; }
-              .form-section { background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 25px; border: 1px solid #e1e4e8; }
-              input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; margin-bottom: 10px; }
-              button { width: 100%; padding: 15px; background-color: #1a73e8; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
-              .search-box { background: #fffde7; border: 2px solid #fbc02d; padding: 15px; border-radius: 10px; margin-bottom: 20px; }
-              table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-              th, td { padding: 12px; border-bottom: 1px solid #eee; text-align: left; }
-              th { background-color: #1a73e8; color: white; }
-              .actions { display: flex; gap: 5px; }
-              .whatsapp-btn { background-color: #25d366; color: white; padding: 8px 10px; border-radius: 5px; text-decoration: none; font-size: 11px; font-weight: bold; }
-              .delete-btn { background-color: #dc3545; color: white; padding: 8px 10px; border-radius: 5px; text-decoration: none; font-size: 11px; font-weight: bold; border: none; cursor: pointer; }
-              @media (max-width: 600px) { th, td { padding: 8px; font-size: 11px; } .actions { flex-direction: column; } }
-          </style>
-      </head>
-      <body>
-          <div class="container">
-              <h1>🐼 PANDAS GLOBAL LOGISTICS</h1>
-              
-              <div class="form-section">
-                  <h3>Sajili Mzigo Mpya</h3>
-                  <form action="/add-cargo-web" method="POST">
-                      <input type="text" name="sender_name" placeholder="Jina la Mtumaji" required>
-                      <input type="text" name="cargo_details" placeholder="Maelezo ya Mzigo" required>
-                      <input type="text" name="destination" placeholder="Unakokwenda" required>
-                      <button type="submit">Hifadhi Taarifa ✅</button>
-                  </form>
-              </div>
-
-              <div class="search-box">
-                  <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="🔍 Tafuta mzigo...">
-              </div>
-
-              <h3>Orodha ya Mizigo</h3>
-              <table>
-                  <thead>
-                      <tr><th>Mtumaji</th><th>Mzigo</th><th>Destination</th><th>Actions</th></tr>
-                  </thead>
-                  <tbody id="tableBody"></tbody>
-              </table>
+    const result = await pool.query('SELECT * FROM cargo WHERE id = ', [id]);
+    if (result.rows.length > 0) {
+      const item = result.rows[0];
+      res.send(`
+        <body style="font-family: sans-serif; padding: 20px; background: #e8f0fe;">
+          <div style="max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 10px; border-top: 5px solid #1a73e8;">
+            <h2>Taarifa za Mzigo: #${item.id}</h2>
+            <hr>
+            <p><strong>Mtumaji:</strong> ${item.sender_name}</p>
+            <p><strong>Mzigo:</strong> ${item.cargo_details}</p>
+            <p><strong>Unakokwenda:</strong> ${item.destination}</p>
+            <p><strong>Tarehe:</strong> ${new Date(item.created_at).toLocaleDateString()}</p>
+            <button onclick="window.history.back()" style="padding: 10px; background: #1a73e8; color: white; border: none; border-radius: 5px;">Rudi Nyuma</button>
           </div>
-
-          <script>
-              const data = ${cargoData};
-              const tableBody = document.getElementById('tableBody');
-
-              function displayData(items) {
-                  tableBody.innerHTML = items.map(item => {
-                      const msg = encodeURIComponent("Habari PANDAS GLOBAL, naulizia mzigo wangu wa " + item.cargo_details + " (ID: " + item.id + ")");
-                      return `
-                        <tr>
-                            <td><strong>${item.sender_name}</strong></td>
-                            <td>${item.cargo_details}</td>
-                            <td>${item.destination}</td>
-                            <td>
-                                <div class="actions">
-                                    <a href="https://wa.me/255717872888?text=${msg}" class="whatsapp-btn" target="_blank">WA 💬</a>
-                                    <button onclick="deleteCargo(${item.id})" class="delete-btn">Futa 🗑️</button>
-                                </div>
-                            </td>
-                        </tr>
-                      `;
-                  }).join('');
-              }
-
-              async function deleteCargo(id) {
-                  if (confirm('Je, una uhakika unataka kufuta taarifa hii?')) {
-                      const response = await fetch('/delete-cargo/' + id, { method: 'DELETE' });
-                      if (response.ok) { window.location.reload(); }
-                  }
-              }
-
-              function filterTable() {
-                  const query = document.getElementById('searchInput').value.toLowerCase();
-                  const filtered = data.filter(item => 
-                      item.sender_name.toLowerCase().includes(query) || 
-                      item.destination.toLowerCase().includes(query)
-                  );
-                  displayData(filtered);
-              }
-              displayData(data);
-          </script>
-      </body>
-      </html>
-    `);
-  } catch (err) {
-    res.status(500).send("Hitilafu ya mfumo.");
-  }
+        </body>
+      `);
+    } else {
+      res.send("<h3>ID haijapatikana. Hakikisha namba ni sahihi.</h3><button onclick='window.history.back()'>Rudi</button>");
+    }
+  } catch (err) { res.status(500).send("Error"); }
 });
 
+// 3. ADMIN LOGIN (Siri kwa Sado)
+app.get('/admin-login', (req, res) => {
+  res.send(`
+    <body style="text-align:center; padding: 50px;">
+      <form action="/admin" method="POST">
+        <h3>PANDAS ADMIN PANEL</h3>
+        <input type="password" name="password" placeholder="Ingiza Password ya Admin" required>
+        <button type="submit">Ingia</button>
+      </form>
+    </body>
+  `);
+});
+
+// 4. ADMIN DASHBOARD (Baada ya Login)
+app.post('/admin', async (req, res) => {
+  const { password } = req.body;
+  if (password !== ADMIN_PASSWORD) return res.send("Password siyo sahihi!");
+  
+  const result = await pool.query('SELECT * FROM cargo ORDER BY created_at DESC');
+  let rows = result.rows.map(item => `
+    <tr>
+      <td>${item.id}</td>
+      <td>${item.sender_name}</td>
+      <td>${item.cargo_details}</td>
+      <td>${item.destination}</td>
+      <td><button onclick="fetch('/delete-cargo/${item.id}', {method:'DELETE'}).then(()=>location.reload())">Futa</button></td>
+    </tr>
+  `).join('');
+
+  res.send(`
+    <body style="font-family: sans-serif; padding: 20px;">
+      <h1>ADMIN PANEL - PANDAS GLOBAL</h1>
+      <form action="/add-cargo-web" method="POST" style="background: #eee; padding: 15px; border-radius: 10px;">
+        <input type="text" name="sender_name" placeholder="Mtumaji" required>
+        <input type="text" name="cargo_details" placeholder="Mzigo" required>
+        <input type="text" name="destination" placeholder="Destination" required>
+        <button type="submit">Sajili Mzigo</button>
+      </form>
+      <table border="1" style="width:100%; margin-top: 20px; border-collapse: collapse;">
+        <tr style="background: #1a73e8; color: white;"><th>ID</th><th>Mtumaji</th><th>Mzigo</th><th>Destination</th><th>Action</th></tr>
+        ${rows}
+      </table>
+    </body>
+  `);
+});
+
+// (Route nyingine za Add na Delete zibaki vile vile...)
 app.post('/add-cargo-web', async (req, res) => {
   const { sender_name, cargo_details, destination } = req.body;
-  try {
-    await pool.query('INSERT INTO cargo (sender_name, cargo_details, destination) VALUES (, , )', [sender_name, cargo_details, destination]);
-    res.redirect('/');
-  } catch (err) { res.status(500).send(err.message); }
+  await pool.query('INSERT INTO cargo (sender_name, cargo_details, destination) VALUES (, , )', [sender_name, cargo_details, destination]);
+  res.send("Mzigo umesajiliwa! <a href='/'>Rudi Nyuma</a>");
 });
 
 app.delete('/delete-cargo/:id', async (req, res) => {
-  try {
-    await pool.query('DELETE FROM cargo WHERE id = ', [req.params.id]);
-    res.sendStatus(200);
-  } catch (err) { res.status(500).send(err.message); }
+  await pool.query('DELETE FROM cargo WHERE id = ', [req.params.id]);
+  res.sendStatus(200);
 });
 
 const PORT = process.env.PORT || 10000;
-app.listen(PORT, () => console.log('PANDAS App is Live!'));
+app.listen(PORT, () => console.log('PANDAS Secured App is Live!'));
