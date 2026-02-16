@@ -1,0 +1,136 @@
+const express = require('express');
+const { Pool } = require('pg');
+const app = express();
+const ADMIN_PASSWORD = "SADO_PANDAS_2026"; // Hii ndiyo password yako ya Admin
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false }
+});
+
+// 1. UKURASA WA TRACKING (Kwa ajili ya Wateja)
+app.get('/', (req, res) => {
+  res.send(`
+    <html>
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>PANDAS GLOBAL | Track Cargo</title>
+        <style>
+          body { font-family: sans-serif; background: #f0f2f5; text-align: center; padding: 50px 20px; }
+          .track-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); max-width: 400px; margin: auto; }
+          h1 { color: #1a73e8; }
+          input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+          button { width: 100%; padding: 12px; background: #1a73e8; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        </style>
+      </head>
+      <body>
+        <div class="track-card">
+          <h1>🐼 PANDAS TRACKING</h1>
+          <p>Ingiza Cargo ID yako kufuatilia mzigo</p>
+          <form action="/track" method="GET">
+            <input type="text" name="id" placeholder="Mfano: 101" required>
+            <button type="submit">Fuatilia Sasa</button>
+          </form>
+          <br>
+          <a href="/admin-login" style="font-size: 10px; color: #ccc; text-decoration: none;">Staff Login</a>
+        </div>
+      </body>
+    </html>
+  `);
+});
+
+// 2. MATOKEO YA TRACKING
+app.get('/track', async (req, res) => {
+  const { id } = req.query;
+  try {
+    const result = await pool.query('SELECT * FROM cargo WHERE id = ', [id]);
+    if (result.rows.length > 0) {
+      const item = result.rows[0];
+      res.send(`
+        <body style="font-family: sans-serif; padding: 20px; background: #e8f0fe;">
+          <div style="max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 10px; border-top: 5px solid #1a73e8;">
+            <h2>Taarifa za Mzigo: #${item.id}</h2>
+            <hr>
+            <p><strong>Mtumaji:</strong> ${item.sender_name}</p>
+            <p><strong>Mzigo:</strong> ${item.cargo_details}</p>
+            <p><strong>Unakokwenda:</strong> ${item.destination}</p>
+            <p><strong>Tarehe:</strong> ${new Date(item.created_at).toLocaleDateString()}</p>
+            <button onclick="window.history.back()" style="padding: 10px; background: #1a73e8; color: white; border: none; border-radius: 5px;">Rudi Nyuma</button>
+          </div>
+        </body>
+      `);
+    } else {
+      res.send("<h3>ID haijapatikana. Hakikisha namba ni sahihi.</h3><button onclick='window.history.back()'>Rudi</button>");
+    }
+  } catch (err) { res.status(500).send("Error"); }
+});
+
+// 3. ADMIN LOGIN (Siri kwa Sado)
+app.get('/admin-login', (req, res) => {
+  res.send(`
+    <body style="text-align:center; padding: 50px;">
+      <form action="/admin" method="POST">
+        <h3>PANDAS ADMIN PANEL</h3>
+        <input type="password" name="password" placeholder="Ingiza Password ya Admin" required>
+        <button type="submit">Ingia</button>
+      </form>
+    </body>
+  `);
+});
+
+// 4. ADMIN DASHBOARD (Baada ya Login)
+app.post('/admin', async (req, res) => {
+  const { password } = req.body;
+  if (password !== ADMIN_PASSWORD) return res.send("Password siyo sahihi!");
+  
+  const result = await pool.query('SELECT * FROM cargo ORDER BY created_at DESC');
+  let rows = result.rows.map(item => `
+    <tr>
+      <td>${item.id}</td>
+      <td>${item.sender_name}</td>
+      <td>${item.cargo_details}</td>
+      <td>${item.destination}</td>
+      <td><button onclick="fetch('/delete-cargo/${item.id}', {method:'DELETE'}).then(()=>location.reload())">Futa</button></td>
+    </tr>
+  `).join('');
+
+  res.send(`
+    <body style="font-family: sans-serif; padding: 20px;">
+      <h1>ADMIN PANEL - PANDAS GLOBAL</h1>
+      <form action="/add-cargo-web" method="POST" style="background: #eee; padding: 15px; border-radius: 10px;">
+        <input type="text" name="sender_name" placeholder="Mtumaji" required>
+        <input type="text" name="cargo_details" placeholder="Mzigo" required>
+        <input type="text" name="destination" placeholder="Destination" required>
+        <button type="submit">Sajili Mzigo</button>
+      </form>
+      <table border="1" style="width:100%; margin-top: 20px; border-collapse: collapse;">
+        <tr style="background: #1a73e8; color: white;"><th>ID</th><th>Mtumaji</th><th>Mzigo</th><th>Destination</th><th>Action</th></tr>
+        ${rows}
+      </table>
+    </body>
+  `);
+});
+
+// (Route nyingine za Add na Delete zibaki vile vile...)
+app.post('/add-cargo-web', async (req, res) => {
+  const { sender_name, cargo_details, destination } = req.body;
+  await pool.query('INSERT INTO cargo (sender_name, cargo_details, destination) VALUES (, , )', [sender_name, cargo_details, destination]);
+  res.send("Mzigo umesajiliwa! <a href='/'>Rudi Nyuma</a>");
+});
+
+app.delete('/delete-cargo/:id', async (req, res) => {
+  await pool.query('DELETE FROM cargo WHERE id = ', [req.params.id]);
+  res.sendStatus(200);
+});
+
+const PORT = process.env.PORT || 10000;
+app.listen(PORT, () => console.log('PANDAS Secured App is Live!'));
+​git commit -m "Added product request feature"
+​git push origin main
+index.html
+
+nano index.html
+
