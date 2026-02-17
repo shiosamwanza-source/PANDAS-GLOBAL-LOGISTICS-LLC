@@ -1,3 +1,37 @@
+<script>
+function trackCargo() {
+  const id = document.getElementById("cargoId").value.trim();
+  const result = document.getElementById("result");
+
+  const cargos = {
+    "101": {
+      status: "📦 Mzigo uko Dar es Salaam",
+      location: "Dar es Salaam",
+      eta: "Delivered"
+    },
+    "202": {
+      status: "🚢 Mzigo uko njiani kutoka China",
+      location: "Indian Ocean",
+      eta: "3 days"
+    },
+    "303": {
+      status: "✈️ Mzigo uko Dubai",
+      location: "Dubai",
+      eta: "1 day"
+    }
+  };
+
+  if (cargos[id]) {
+    result.innerHTML = `
+      <b>Status:</b> ${cargos[id].status} <br>
+      <b>Location:</b> ${cargos[id].location} <br>
+      <b>ETA:</b> ${cargos[id].eta}
+    `;
+  } else {
+    result.innerHTML = "❌ Cargo ID haijapatikana";
+  }
+}
+</script>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,14 +44,39 @@
 <input type="text" id="cargoId" placeholder="Enter Cargo ID">
 <button onclick="trackCargo()">Track</button>
 
+<p id="result"></p>
+
 <script>
 function trackCargo() {
-  const id = document.getElementById("cargoId").value;
+  const id = document.getElementById("cargoId").value.trim();
+  const result = document.getElementById("result");
 
-  if (id === "101") {
-    alert("Mzigo uko Dar es Salaam");
+  const cargos = {
+    "101": {
+      status: "📦 Mzigo uko Dar es Salaamalam",
+      location: "Dar es Salaam",
+      eta: "Delivered"
+    },
+    "202": {
+      status: "🚢 Mzigo uko njiani kutoka China",
+      location: "Indian Ocean",
+      eta: "3 days"
+    },
+    "303": {
+      status: "✈️ Mzigo uko Dubai",
+      location: "Dubai",
+      eta: "1 day"
+    }
+  };
+
+  if (cargos[id]) {
+    result.innerHTML = `
+    <b>Status:</b> ${cargos[id].status} <br>
+    <b>Location:</b> ${cargos[id].location} <br>
+    <b>ETA:</b> ${cargos[id].eta}
+    `;
   } else {
-    alert("Haijapatikana");
+    result.innerHTML = "❌ Cargo ID haijapatikana";
   }
 }
 </script>
