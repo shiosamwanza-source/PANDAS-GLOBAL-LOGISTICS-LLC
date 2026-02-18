@@ -1,84 +1,98 @@
-<img src="logo.png" width="120">
 <!DOCTYPE html>
 <html>
 <head>
-<title>PANDAS TRACKING</title>
+  <title>PANDAS TRACKING</title>
 
-<style>
-body {
-  font-family: Arial;
-  text-align: center;
-  background: #f4f6f8;
-}
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      background: #f4f6f8;
+      padding: 20px;
+    }
 
-h1 {
-  color: #0a2540;
-}
+    img {
+      margin-bottom: 10px;
+    }
 
-button {
-  background: #0a2540;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-}
+    h1 {
+      color: #0a2540;
+      margin-bottom: 20px;
+    }
 
-input {
-  padding: 10px;
-  width: 200px;
-}
-</style>
+    input {
+      padding: 10px;
+      width: 200px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      padding: 10px 15px;
+      background: #0a2540;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #133b63;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+  </style>
 
 </head>
+
 <body>
 
-<img src="logo.png" width="120">
+  <img src="logo.png" width="120">
 
-<h1>PANDAS GLOBAL LOGISTICS</h1>
-<p style="color:gold; font-weight:bold;">
-WE OWN THE PORT, YOU OWN THE PROFIT.
-</p>
+  <h1>PANDAS GLOBAL LOGISTICS</h1>
 
-<input type="text" id="cargoId" placeholder="Enter Cargo ID">
-<button onclick="trackCargo()">Track</button>
+  <input type="text" id="cargoId" placeholder="Enter Cargo ID">
+  <button onclick="trackCargo()">Track</button>
 
-<p id="result"></p>
+  <p id="result"></p>
 
-<script>
-function trackCargo() {
-  const id = document.getElementById("cargoId").value.trim();
-  const result = document.getElementById("result");
+  <script>
+    function trackCargo() {
+      const id = document.getElementById("cargoId").value.trim();
+      const result = document.getElementById("result");
 
-  const cargos = {
-    "101": {
-      status: "📦 Mzigo uko Dar es Salaam",
-      location: "Dar es Salaam",
-      eta: "Delivered"
-    },
-    "202": {
-      status: "🚢 Mzigo uko njiani kutoka China",
-      location: "Indian Ocean",
-      eta: "3 days"
-    },
-    "303": {
-      status: "✈️ Mzigo uko Dubai",
-      location: "Dubai",
-      eta: "1 day"
+      const cargos = {
+        "101": {
+          status: "📦 Mzigo uko Dar es Salaam",
+          location: "Dar es Salaam",
+          eta: "Delivered"
+        },
+        "202": {
+          status: "🚢 Mzigo uko njiani kutoka China",
+          location: "Indian Ocean",
+          eta: "3 days"
+        },
+        "303": {
+          status: "✈️ Mzigo uko Dubai",
+          location: "Dubai",
+          eta: "1 day"
+        }
+      };
+
+      if (cargos[id]) {
+        result.innerHTML = `
+          <b>Status:</b> ${cargos[id].status} <br>
+          <b>Location:</b> ${cargos[id].location} <br>
+          <b>ETA:</b> ${cargos[id].eta}
+        `;
+      } else {
+        result.innerHTML = "❌ Cargo ID haijapatikana";
+      }
     }
-  };
-
-  if (cargos[id]) {
-    result.innerHTML = `
-      <b>Status:</b> ${cargos[id].status} <br>
-      <b>Location:</b> ${cargos[id].location} <br>
-      <b>ETA:</b> ${cargos[id].eta}
-    `;
-  } else {
-    result.innerHTML = "❌ Cargo ID haijapatikana";
-  }
-}
-</script>
+  </script>
 
 </body>
 </html>
-Update UI
-fix logo path
