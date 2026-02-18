@@ -1,45 +1,41 @@
-<script>
-function trackCargo() {
-  const id = document.getElementById("cargoId").value.trim();
-  const result = document.getElementById("result");
-
-  const cargos = {
-    "101": {
-      status: "📦 Mzigo uko Dar es Salaam",
-      location: "Dar es Salaam",
-      eta: "Delivered"
-    },
-    "202": {
-      status: "🚢 Mzigo uko njiani kutoka China",
-      location: "Indian Ocean",
-      eta: "3 days"
-    },
-    "303": {
-      status: "✈️ Mzigo uko Dubai",
-      location: "Dubai",
-      eta: "1 day"
-    }
-  };
-
-  if (cargos[id]) {
-    result.innerHTML = `
-      <b>Status:</b> ${cargos[id].status} <br>
-      <b>Location:</b> ${cargos[id].location} <br>
-      <b>ETA:</b> ${cargos[id].eta}
-    `;
-  } else {
-    result.innerHTML = "❌ Cargo ID haijapatikana";
-  }
-}
-</script>
 <!DOCTYPE html>
 <html>
 <head>
 <title>PANDAS TRACKING</title>
+
+<style>
+body {
+  font-family: Arial;
+  text-align: center;
+  background: #f4f6f8;
+}
+
+h1 {
+  color: #0a2540;
+}
+
+button {
+  background: #0a2540;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+}
+
+input {
+  padding: 10px;
+  width: 200px;
+}
+</style>
+
 </head>
 <body>
 
+<img src="logo.png" width="120">
+
 <h1>PANDAS GLOBAL LOGISTICS</h1>
+<p style="color:gold; font-weight:bold;">
+WE OWN THE PORT, YOU OWN THE PROFIT.
+</p>
 
 <input type="text" id="cargoId" placeholder="Enter Cargo ID">
 <button onclick="trackCargo()">Track</button>
@@ -53,91 +49,6 @@ function trackCargo() {
 
   const cargos = {
     "101": {
-      status: "📦 Mzigo uko Dar es Salaamalam",
-      location: "Dar es Salaam",
-      eta: "Delivered"
-    },
-    "202": {
-      status: "🚢 Mzigo uko njiani kutoka China",
-      location: "Indian Ocean",
-      eta: "3 days"
-    },
-    "303": {
-      status: "✈️ Mzigo uko Dubai",
-      location: "Dubai",
-      eta: "1 day"
-    }
-  };
-
-  if (cargos[id]) {
-    result.innerHTML = `
-    <b>Status:</b> ${cargos[id].status} <br>
-    <b>Location:</b> ${cargos[id].location} <br>
-    <b>ETA:</b> ${cargos[id].eta}
-    `;
-  } else {
-    result.innerHTML = "❌ Cargo ID haijapatikana";
-  }
-}
-</script>
-
-</body>
-</html>
-<!DOCTYPE html>
-<html>
-<head>
-<title>PANDAS TRACKING</title>
-<style>
-body {
-  font-family: Arial;
-  text-align: center;
-  background: #0f172a;
-  color: white;
-}
-
-.container {
-  margin-top: 100px;
-}
-
-input {
-  padding: 10px;
-  width: 200px;
-}
-
-button {
-  padding: 10px 20px;
-  background: #22c55e;
-  border: none;
-  color: white;
-  cursor: pointer;
-}
-
-#result {
-  margin-top: 20px;
-  font-size: 18px;
-}
-</style>
-</head>
-
-<body>
-
-<div class="container">
-<h1>📦 PANDAS GLOBAL LOGISTICS</h1>
-
-<input type="text" id="cargoId" placeholder="Enter Cargo ID">
-<br><br>
-<button onclick="trackCargo()">Track Cargo</button>
-
-<p id="result"></p>
-</div>
-
-<script>
-function trackCargo() {
-  const id = document.getElementById("cargoId").value.trim();
-  const result = document.getElementById("result");
-
-  const cargos = {
-    "101": {
       status: "📦 Mzigo uko Dar es Salaam",
       location: "Dar es Salaam",
       eta: "Delivered"
@@ -168,4 +79,3 @@ function trackCargo() {
 
 </body>
 </html>
-
