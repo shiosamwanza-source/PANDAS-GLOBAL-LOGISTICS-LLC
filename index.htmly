@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+  <meta charset="UTF-8">
+  <title>PANDAS TRACKING</title>
+  <style>
+    body {
+      font-family: Arial;
+      background: #f5f5f5;
+      text-align: center;
+      padding: 50px;
+    }
+    .box {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      max-width: 400px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 15px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 15px;
+      background: #2d6cdf;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="box">
+  <h2>🐼 PANDAS TRACKING</h2>
+  <p>Ingiza Cargo ID yako kufuatilia mzigo</p>
+
+  <input type="text" placeholder="Mfano: 101" id="cargoId">
+  <button onclick="trackCargo()">Fuatilia Sasa</button>
+</div>
+
+<script>
+function trackCargo() {
+  const id = document.getElementById("cargoId").value;
+
+  if (id === "101") {
+    alert("📦 Mzigo uko Dar es Salaam - unasubiri delivery");
+  } else {
+    alert("❌ Cargo haijapatikana");
+  }
+}
+</script>
+
+</body>
+</html>
