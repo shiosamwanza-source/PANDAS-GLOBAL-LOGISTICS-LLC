@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PANDAS GLOBAL LOGISTICS</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<h1>PANDAS GLOBAL LOGISTICS</h1>
+
+<p>
+Our DFA technology uses cryptographic hashing to create a unique digital fingerprint 
+for every trade document. This ensures that invoices, packing lists, and inspection 
+reports remain immutable and tamper-proof.
+</p>
+
+<input type="text" id="cargoId" placeholder="Enter Cargo ID">
+<button onclick="trackCargo()">Track</button>
+
+<script>
+async function trackCargo() {
+  const id = document.getElementById("cargoId").value;
+
+  const res = await fetch("https://pandas-global-backend.onrender.com");
+  const data = await res.text();
+
+  alert(data);
+}
+</script>
+
+</body>
+</html>
