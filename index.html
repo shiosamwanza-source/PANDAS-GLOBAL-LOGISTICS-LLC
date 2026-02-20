@@ -2,96 +2,61 @@
 <html>
 <head>
   <title>PANDAS GLOBAL LOGISTICS</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
   <style>
     body {
       margin: 0;
       font-family: Arial;
-      background: #0b2c4a;
+      background: #0d2b45;
       color: white;
       text-align: center;
     }
 
-    .container {
-      padding: 20px;
+    img {
+      width: 150px;
+      margin-top: 40px;
     }
 
-    img {
-      width: 180px;
-      margin-top: 20px;
+    h1 {
+      font-size: 28px;
+      margin: 20px;
+    }
+
+    p {
+      padding: 0 20px;
+      line-height: 1.5;
+      color: #ccc;
     }
 
     .btn {
-      background: #f4b400;
-      color: black;
-      padding: 15px 25px;
+      margin-top: 30px;
+      padding: 15px 30px;
+      background: gold;
       border: none;
       border-radius: 10px;
       font-size: 18px;
-      margin-top: 20px;
+      cursor: pointer;
     }
 
-    input {
-      width: 80%;
-      padding: 15px;
-      border-radius: 10px;
-      border: none;
-      margin-top: 20px;
-    }
-
-    .card {
-      background: #12395d;
-      padding: 20px;
-      border-radius: 15px;
-      margin-top: 30px;
-    }
   </style>
 </head>
 
 <body>
 
-<div class="container">
+<img src="logo.png">
 
-  <img src="logo.png">
+<h1>PANDAS GLOBAL LOGISTICS</h1>
 
-  <h1>PANDAS GLOBAL LOGISTICS</h1>
+<p>
+Our DFA technology uses cryptographic hashing to create a secure digital fingerprint for every trade document.
+</p>
 
-  <p>Track your cargo in real-time with our secure system.</p>
+<p>
+Live Verification ensures every shipment is authentic, transparent, and trusted across borders.
+</p>
 
-  <input type="text" id="cargoId" placeholder="Enter Cargo ID">
-
-  <br>
-
-  <button class="btn" onclick="trackCargo()">Track Now</button>
-
-  <div class="card" id="result" style="display:none;"></div>
-
-</div>
-
-<script>
-async function trackCargo() {
-  const id = document.getElementById("cargoId").value;
-
-  const res = await fetch("/track/" + id);
-  const data = await res.json();
-
-  const box = document.getElementById("result");
-
-  if (data.status) {
-    box.style.display = "block";
-    box.innerHTML = `
-      <h2>${data.status}</h2>
-      <p>${data.location}</p>
-      <p>${data.eta}</p>
-    `;
-  } else {
-    box.style.display = "block";
-    box.innerHTML = "❌ Not Found";
-  }
-}
-</script>
+<button class="btn" onclick="location.href='track.html'">
+Start Tracking
+</button>
 
 </body>
 </html>
-
