@@ -1,3 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PANDAS GLOBAL LOGISTICS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial;
+      background: #0b2c4a;
+      color: white;
+      text-align: center;
+    }
 
-EOF
+    .container {
+      padding: 20px;
+    }
+
+    img {
+      width: 180px;
+      margin-top: 20px;
+    }
+
+    .btn {
+      background: #f4b400;
+      color: black;
+      padding: 15px 25px;
+      border: none;
+      border-radius: 10px;
+      font-size: 18px;
+      margin-top: 20px;
+    }
+
+    input {
+      width: 80%;
+      padding: 15px;
+      border-radius: 10px;
+      border: none;
+      margin-top: 20px;
+    }
+
+    .card {
+      background: #12395d;
+      padding: 20px;
+      border-radius: 15px;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <img src="logo.png">
+
+  <h1>PANDAS GLOBAL LOGISTICS</h1>
+
+  <p>Track your cargo in real-time with our secure system.</p>
+
+  <input type="text" id="cargoId" placeholder="Enter Cargo ID">
+
+  <br>
+
+  <button class="btn" onclick="trackCargo()">Track Now</button>
+
+  <div class="card" id="result" style="display:none;"></div>
+
+</div>
+
+<script>
+async function trackCargo() {
+  const id = document.getElementById("cargoId").value;
+
+  const res = await fetch("/track/" + id);
+  const data = await res.json();
+
+  const box = document.getElementById("result");
+
+  if (data.status) {
+    box.style.display = "block";
+    box.innerHTML = `
+      <h2>${data.status}</h2>
+      <p>${data.location}</p>
+      <p>${data.eta}</p>
+    `;
+  } else {
+    box.style.display = "block";
+    box.innerHTML = "❌ Not Found";
+  }
+}
+</script>
+
+</body>
+</html>
 
