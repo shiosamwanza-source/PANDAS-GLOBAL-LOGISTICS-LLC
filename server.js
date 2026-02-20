@@ -4,19 +4,36 @@ const cors = require('cors');
 
 const app = express();
 
+// Middleware
 app.use(cors());
 app.use(express.json());
 
-const authRoutes = require('./routes/auth');
-const rfqRoutes = require('./routes/rfq');
-
-app.use('/api', authRoutes);
-app.use('/api', rfqRoutes);
-
+// ✅ ROOT (test if server is alive)
 app.get('/', (req, res) => {
-  res.send('PANDAS API RUNNING 🚀');
+  res.send('PANDAS BACKEND LIVE 🚀');
 });
 
-app.listen(5000, () => {
-  console.log('Server running on http://localhost:5000');
+// ✅ TRACKING API (REAL ENDPOINT)
+app.get('/track/:id', (req, res) => {
+  const cargoId = req.params.id;
+
+  // Simple demo database
+  const cargos = {
+    "101": { status: "Mzigo uko Dar es Salaam 🇹🇿" },
+    "202": { status: "Mzigo uko Dubai 🇦🇪" },
+    "303": { status: "Mzigo uko China 🇨🇳" }
+  };
+
+  if (cargos[cargoId]) {
+    res.json(cargos[cargoId]);
+  } else {
+    res.json({ status: null });
+  }
+});
+
+// ✅ IMPORTANT FOR RENDER (dynamic port)
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
