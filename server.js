@@ -7,7 +7,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Serve frontend (landing page)
+// Serve frontend
 app.use(express.static(__dirname));
 
 // Landing page
@@ -20,18 +20,21 @@ app.get('/track/:id', (req, res) => {
   const id = req.params.id;
 
   if (id === "101") {
-    res.json({ status: "Mzigo uko Dar es Salaam 🚚" });
+    res.json({
+      status: "📦 Delivered",
+      location: "Dar es Salaam",
+      eta: "Completed"
+    });
   } else {
-    res.json({ status: null });
+    res.json({
+      status: null
+    });
   }
 });
 
-// PORT (important for Render)
+// PORT (IMPORTANT)
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.log("Server running on port " + PORT);
 });
-cat << 'EOF' > server.js
-(PASTE CODE HAPA)
-EOF
