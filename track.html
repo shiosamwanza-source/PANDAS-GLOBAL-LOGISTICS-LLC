@@ -1,97 +1,98 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>PANDAS GLOBAL LOGISTICS</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial;
-      background: #0b2c4a;
-      color: white;
-      text-align: center;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Track Cargo - PANDAS</title>
 
-    .container {
-      padding: 20px;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(rgba(10,30,60,0.9), rgba(10,30,60,0.95)),
+              url('bg.jpg') no-repeat center center/cover;
+  color: white;
+  text-align: center;
+}
 
-    img {
-      width: 180px;
-      margin-top: 20px;
-    }
+.container {
+  padding: 50px 20px;
+}
 
-    .btn {
-      background: #f4b400;
-      color: black;
-      padding: 15px 25px;
-      border: none;
-      border-radius: 10px;
-      font-size: 18px;
-      margin-top: 20px;
-    }
+h1 {
+  margin-bottom: 20px;
+}
 
-    input {
-      width: 80%;
-      padding: 15px;
-      border-radius: 10px;
-      border: none;
-      margin-top: 20px;
-    }
+input {
+  padding: 12px;
+  width: 80%;
+  max-width: 300px;
+  border-radius: 8px;
+  border: none;
+  margin-bottom: 15px;
+}
 
-    .card {
-      background: #12395d;
-      padding: 20px;
-      border-radius: 15px;
-      margin-top: 30px;
-    }
-  </style>
+button {
+  padding: 12px 25px;
+  background: #f5b400;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #ffcc00;
+}
+
+.result {
+  margin-top: 30px;
+  padding: 20px;
+  background: rgba(0,0,0,0.4);
+  border-radius: 10px;
+  display: none;
+}
+</style>
+
 </head>
 
 <body>
 
 <div class="container">
 
-  <img src="logo.png">
+<h1>Track Your Cargo</h1>
 
-  <h1>PANDAS GLOBAL LOGISTICS</h1>
+<input type="text" id="tracking" placeholder="Enter Tracking ID">
+<br>
+<button onclick="track()">TRACK</button>
 
-  <p>Track your cargo in real-time with our secure system.</p>
-
-  <input type="text" id="cargoId" placeholder="Enter Cargo ID">
-
-  <br>
-
-  <button class="btn" onclick="trackCargo()">Track Now</button>
-
-  <div class="card" id="result" style="display:none;"></div>
+<div class="result" id="result"></div>
 
 </div>
 
 <script>
-async function trackCargo() {
-  const id = document.getElementById("cargoId").value;
+async function track() {
+  const id = document.getElementById("tracking").value;
 
   const res = await fetch("/track/" + id);
   const data = await res.json();
 
   const box = document.getElementById("result");
 
-  if (data.status) {
+  if (data.error) {
     box.style.display = "block";
-    box.innerHTML = `
-      <h2>${data.status}</h2>
-      <p>${data.location}</p>
-      <p>${data.eta}</p>
-    `;
-  } else {
-    box.style.display = "block";
-    box.innerHTML = "❌ Not Found";
+    box.innerHTML = "❌ Tracking ID not found";
+    return;
   }
+
+  box.style.display = "block";
+  box.innerHTML = `
+    <h3>Status: ${data.status}</h3>
+    <p>Location: ${data.location}</p>
+    <p>ETA: ${data.eta}</p>
+  `;
 }
 </script>
 
 </body>
 </html>
-
