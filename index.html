@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>PANDAS GLOBAL LOGISTICS</title>
 
 <style>
@@ -11,27 +10,13 @@ body {
   margin: 0;
   font-family: Arial, sans-serif;
   color: white;
-  background: linear-gradient(rgba(10,30,60,0.85), rgba(10,30,60,0.95)),
+  text-align: center;
+  background: linear-gradient(rgba(10,30,60,0.9), rgba(10,30,60,0.95)),
               url('bg.jpg') no-repeat center center/cover;
 }
 
-/* NAV */
-.nav {
-  display: flex;
-  justify-content: space-between;
-  padding: 20px;
-}
-
-.nav a {
-  color: white;
-  text-decoration: none;
-  margin: 0 10px;
-}
-
-/* HERO */
-.hero {
-  text-align: center;
-  padding: 80px 20px;
+.container {
+  padding: 60px 20px;
 }
 
 .logo {
@@ -39,122 +24,104 @@ body {
 }
 
 h1 {
-  font-size: 36px;
+  font-size: 32px;
 }
 
 .motto {
   color: #f5b400;
   font-weight: bold;
-  margin: 20px 0;
 }
 
-/* BUTTON */
-.btn {
-  padding: 15px 30px;
-  background: #f5b400;
-  color: black;
-  border: none;
-  border-radius: 8px;
-  font-size: 18px;
-  cursor: pointer;
-}
-
-.btn:hover {
-  background: #ffcc00;
-}
-
-/* SECTION */
 .section {
-  padding: 60px 20px;
+  margin-top: 60px;
   max-width: 900px;
-  margin: auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.section h2 {
-  color: #f5b400;
+.desc {
+  color: rgba(255,255,255,0.9);
+  line-height: 1.6;
 }
 
-/* FEATURES */
 .feature {
   margin: 15px 0;
 }
+
+.btn {
+  margin-top: 30px;
+  padding: 15px 30px;
+  background: #f5b400;
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  color: black;
+  font-weight: bold;
+}
+
+.footer {
+  margin-top: 60px;
+  padding: 20px;
+  background: rgba(0,0,0,0.3);
+}
 </style>
+
 </head>
 
 <body>
 
-<!-- NAV -->
-<div class="nav">
-  <div><b>PANDAS</b></div>
-  <div>
-    <a href="#about">About</a>
-    <a href="#tech">Technology</a>
-    <a href="track.html">Track</a>
-  </div>
+<div class="container">
+
+<img src="logo.png" class="logo">
+
+<h1>PANDAS GLOBAL LOGISTICS</h1>
+
+<p class="motto">WE OWN THE PORT, YOU OWN THE PROFIT.</p>
+
+<p class="desc">
+DFA Technology secures every trade with a digital fingerprint that cannot be altered.<br><br>
+Live Verification allows real-time inspection before any transaction is completed.<br><br>
+We eliminate fraud, build trust, and give you full visibility of your cargo.
+</p>
+
+<a href="track.html">
+  <button class="btn">Track Your Cargo</button>
+</a>
+
 </div>
 
-<!-- HERO -->
-<div class="hero">
-  <img src="logo.png" class="logo">
+<!-- ABOUT US -->
+<div class="section">
+<h2>About Us</h2>
 
-  <h1>PANDAS GLOBAL LOGISTICS</h1>
+<p class="desc">
+PANDAS Global Logistics LLC is a Delaware-registered trade-tech company connecting global markets to East Africa.
 
-  <p class="motto">WE OWN THE PORT, YOU OWN THE PROFIT.</p>
+We eliminate fraud using DFA and Live Verification technology, ensuring every transaction is secure and transparent.
 
-  <p>
-    Where Global Trade Meets Absolute Trust.
-  </p>
-
-  <br>
-
-  <a href="track.html">
-    <button class="btn">Track Your Cargo</button>
-  </a>
-</div>
-
-<!-- ABOUT -->
-<div class="section" id="about">
-  <h2>About Us</h2>
-
-  <p>
-  PANDAS Global Logistics LLC is a Delaware-registered trade-tech corporation
-  designed to bridge global markets with East Africa.
-  </p>
-
-  <p>
-  We eliminate the trust deficit in global trade using advanced verification
-  technologies that ensure every supplier is real, every transaction is secure,
-  and every shipment is authentic.
-  </p>
-</div>
-
-<!-- TECHNOLOGY -->
-<div class="section" id="tech">
-  <h2>Our Technology</h2>
-
-  <div class="feature">🚀 AI Smart Sourcing — Match buyers with verified suppliers</div>
-  <div class="feature">📡 Live Call Verification (LCV) — Real-time inspection</div>
-  <div class="feature">🔐 DFA — Tamper-proof trade security</div>
-  <div class="feature">⚖️ Reverse Sourcing — Suppliers compete for buyers</div>
+We empower African entrepreneurs, protect capital, and build trust in global trade.
+</p>
 </div>
 
 <!-- SERVICES -->
 <div class="section">
-  <h2>Core Services</h2>
+<h2>Our Services</h2>
 
-  <p>✔ Verified Global Sourcing</p>
-  <p>✔ Strategic Logistics & Freight</p>
-  <p>✔ Port Handling & Clearance</p>
-  <p>✔ Trade Protection</p>
+<div class="feature">🚀 Verified Global Sourcing</div>
+<div class="feature">📦 Logistics & Freight Management</div>
+<div class="feature">⚓ Port Clearance & Handling</div>
+<div class="feature">🔐 Trade Protection Systems</div>
+
 </div>
 
-<!-- CTA -->
-<div class="hero">
-  <h2>Start Secure Trade Today</h2>
+<!-- CONTACT -->
+<div class="footer">
 
-  <a href="track.html">
-    <button class="btn">Track Shipment</button>
-  </a>
+<h3>Contact Us</h3>
+
+<p>Email: sadick.faraji@pandas-global.com</p>
+<p>Web: www.pandas-global.com</p>
+
 </div>
 
 </body>
