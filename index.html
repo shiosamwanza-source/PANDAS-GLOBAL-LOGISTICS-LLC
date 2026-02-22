@@ -1,128 +1,305 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PANDAS GLOBAL LOGISTICS</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="PANDAS Global Logistics - Texas-registered trade-tech company connecting global markets to East Africa through verified sourcing and live verification technology.">
+  <meta name="keywords" content="logistics, global trade, East Africa, import verification, cargo tracking, trade protection">
+  <meta name="author" content="PANDAS Global Logistics LLC">
+  
+  <title>PANDAS Global Logistics - The Infrastructure of Trust</title>
 
-<style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  color: white;
-  text-align: center;
-  background: linear-gradient(rgba(10,30,60,0.9), rgba(10,30,60,0.95)),
-              url('bg.jpg') no-repeat center center/cover;
-}
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-.container {
-  padding: 60px 20px;
-}
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: white;
+      text-align: center;
+      background: linear-gradient(rgba(10,30,60,0.95), rgba(10,30,60,0.98)),
+                  url('bg.jpg') no-repeat center center/cover;
+      background-attachment: fixed;
+      line-height: 1.6;
+    }
 
-.logo {
-  width: 120px;
-}
+    /* Fallback if background image doesn't load */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #0a1e3c 0%, #1a3a5c 100%);
+      z-index: -1;
+    }
 
-h1 {
-  font-size: 32px;
-}
+    .container {
+      padding: 60px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
 
-.motto {
-  color: #f5b400;
-  font-weight: bold;
-}
+    .logo-container {
+      margin-bottom: 20px;
+    }
 
-.section {
-  margin-top: 60px;
-  max-width: 900px;
-  margin-left: auto;
-  margin-right: auto;
-}
+    .logo {
+      width: 140px;
+      height: auto;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+    }
 
-.desc {
-  color: rgba(255,255,255,0.9);
-  line-height: 1.6;
-}
+    /* Fallback if logo doesn't load */
+    .logo-fallback {
+      display: inline-block;
+      width: 140px;
+      height: 140px;
+      background: rgba(245,180,0,0.2);
+      border-radius: 50%;
+      border: 3px solid #f5b400;
+      line-height: 140px;
+      font-size: 48px;
+      font-weight: bold;
+      color: #f5b400;
+    }
 
-.feature {
-  margin: 15px 0;
-}
+    h1 {
+      font-size: 42px;
+      font-weight: 700;
+      margin: 20px 0;
+      letter-spacing: 1px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
 
-.btn {
-  margin-top: 30px;
-  padding: 15px 30px;
-  background: #f5b400;
-  border: none;
-  border-radius: 8px;
-  font-size: 18px;
-  color: black;
-  font-weight: bold;
-}
+    .motto {
+      color: #f5b400;
+      font-weight: bold;
+      font-size: 20px;
+      margin: 20px 0;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    }
 
-.footer {
-  margin-top: 60px;
-  padding: 20px;
-  background: rgba(0,0,0,0.3);
-}
-</style>
+    .desc {
+      color: rgba(255,255,255,0.95);
+      line-height: 1.8;
+      font-size: 17px;
+      max-width: 800px;
+      margin: 30px auto;
+    }
 
+    .section {
+      margin-top: 80px;
+      padding: 40px 20px;
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+      background: rgba(255,255,255,0.03);
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+    }
+
+    h2 {
+      font-size: 32px;
+      margin-bottom: 30px;
+      color: #f5b400;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    }
+
+    h3 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: #f5b400;
+    }
+
+    .feature {
+      margin: 20px 0;
+      font-size: 18px;
+      padding: 15px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .feature:hover {
+      background: rgba(245,180,0,0.1);
+      transform: translateX(5px);
+    }
+
+    .btn {
+      margin-top: 40px;
+      padding: 18px 40px;
+      background: #f5b400;
+      border: none;
+      border-radius: 10px;
+      font-size: 20px;
+      color: #0a1e3c;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      box-shadow: 0 4px 15px rgba(245,180,0,0.4);
+    }
+
+    .btn:hover {
+      background: #ffc933;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(245,180,0,0.6);
+    }
+
+    .btn:active {
+      transform: translateY(-1px);
+    }
+
+    .status-badge {
+      display: inline-block;
+      background: rgba(245,180,0,0.2);
+      color: #f5b400;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      margin-top: 10px;
+      border: 1px solid #f5b400;
+    }
+
+    .footer {
+      margin-top: 80px;
+      padding: 40px 20px;
+      background: rgba(0,0,0,0.4);
+      border-top: 2px solid rgba(245,180,0,0.3);
+    }
+
+    .footer p {
+      margin: 10px 0;
+      font-size: 16px;
+    }
+
+    .footer a {
+      color: #f5b400;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer a:hover {
+      color: #ffc933;
+      text-decoration: underline;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 28px;
+      }
+
+      .motto {
+        font-size: 16px;
+      }
+
+      .desc {
+        font-size: 15px;
+      }
+
+      h2 {
+        font-size: 24px;
+      }
+
+      .btn {
+        font-size: 18px;
+        padding: 15px 30px;
+      }
+
+      .section {
+        margin-top: 40px;
+        padding: 30px 15px;
+      }
+    }
+
+    /* Loading animation */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .container > * {
+      animation: fadeIn 0.8s ease-out;
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="container">
+  <div class="container">
+    
+    <div class="logo-container">
+      <!-- Logo with fallback -->
+      <img src="logo.png" alt="PANDAS Global Logistics Logo" class="logo" 
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';">
+      <div class="logo-fallback" style="display:none;">🐼</div>
+    </div>
 
-<img src="logo.png" class="logo">
+    <h1>PANDAS GLOBAL LOGISTICS</h1>
 
-<h1>PANDAS GLOBAL LOGISTICS</h1>
+    <p class="motto">WE OWN THE PORT, YOU OWN THE PROFIT.</p>
 
-<p class="motto">WE OWN THE PORT, YOU OWN THE PROFIT.</p>
+    <div class="status-badge">🚀 Platform Launching Q2 2026</div>
 
-<p class="desc">
-DFA Technology secures every trade with a digital fingerprint that cannot be altered.<br><br>
-Live Verification allows real-time inspection before any transaction is completed.<br><br>
-We eliminate fraud, build trust, and give you full visibility of your cargo.
-</p>
+    <p class="desc">
+      DFA Technology secures every trade with a digital fingerprint that cannot be altered.<br><br>
+      Live Verification allows real-time inspection before any transaction is completed.<br><br>
+      We eliminate fraud, build trust, and give you full visibility of your cargo.
+    </p>
 
-<a href="track.html">
-  <button class="btn">Track Your Cargo</button>
-</a>
+    <a href="track.html" class="btn">Join Waitlist</a>
 
-</div>
+  </div>
 
-<!-- ABOUT US -->
-<div class="section">
-<h2>About Us</h2>
+  <!-- ABOUT US -->
+  <div class="section">
+    <h2>About Us</h2>
 
-<p class="desc">
-PANDAS Global Logistics LLC is a Delaware-registered trade-tech company connecting global markets to East Africa.
+    <p class="desc">
+      PANDAS Global Logistics LLC is a <strong>Texas-registered</strong> trade-tech company connecting global markets to East Africa.
+      <br><br>
+      We eliminate fraud using DFA and Live Verification technology, ensuring every transaction is secure and transparent.
+      <br><br>
+      We empower African entrepreneurs, protect capital, and build trust in global trade.
+    </p>
+  </div>
 
-We eliminate fraud using DFA and Live Verification technology, ensuring every transaction is secure and transparent.
+  <!-- SERVICES -->
+  <div class="section">
+    <h2>Our Services</h2>
 
-We empower African entrepreneurs, protect capital, and build trust in global trade.
-</p>
-</div>
+    <div class="feature">🚀 Verified Global Sourcing</div>
+    <div class="feature">📦 Logistics & Freight Management</div>
+    <div class="feature">⚓ Port Clearance & Handling</div>
+    <div class="feature">🔐 Trade Protection Systems</div>
+  </div>
 
-<!-- SERVICES -->
-<div class="section">
-<h2>Our Services</h2>
+  <!-- CONTACT -->
+  <div class="footer">
+    <h3>Contact Us</h3>
 
-<div class="feature">🚀 Verified Global Sourcing</div>
-<div class="feature">📦 Logistics & Freight Management</div>
-<div class="feature">⚓ Port Clearance & Handling</div>
-<div class="feature">🔐 Trade Protection Systems</div>
-
-</div>
-
-<!-- CONTACT -->
-<div class="footer">
-
-<h3>Contact Us</h3>
-
-<p>Email: sadick.faraji@pandas-global.com</p>
-<p>Web: www.pandas-global.com</p>
-
-</div>
+    <p>📧 Email: <a href="mailto:sadick.faraji@pandas-global.com">sadick.faraji@pandas-global.com</a></p>
+    <p>🌐 Web: <a href="https://www.pandas-global.com" target="_blank" rel="noopener">www.pandas-global.com</a></p>
+    <p>📍 Based in Houston, Texas | Serving East Africa</p>
+    
+    <p style="margin-top: 30px; font-size: 14px; color: rgba(255,255,255,0.6);">
+      © 2026 PANDAS Global Logistics LLC. All rights reserved.<br>
+      Registered in Harris County, Texas
+    </p>
+  </div>
 
 </body>
 </html>
