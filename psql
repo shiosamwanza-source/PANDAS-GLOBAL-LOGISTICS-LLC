@@ -1,0 +1,13 @@
+[1mPackage: [0m[32mpostgresql[0m
+[1mVersion:[0m 18.1
+[1mMaintainer:[0m @termux
+[1mInstalled-Size: [0m30.7 MB
+[1mDepends:[0m libandroid-execinfo, libandroid-shmem, libicu, libuuid, libxml2, openssl, readline, zlib
+[1mBreaks:[0m postgresql-contrib (<= 10.3-1), postgresql-dev
+[1mReplaces:[0m postgresql-contrib (<= 10.3-1), postgresql-dev
+[1mHomepage:[0m https://www.postgresql.org
+[1mDownload-Size: [0m6264 kB
+[1mAPT-Manual-Installed: [0myes
+[1mAPT-Sources: [0mhttps://termux.net stable/main aarch64 Packages
+[1mDescription: [0mObject-relational SQL database
+
