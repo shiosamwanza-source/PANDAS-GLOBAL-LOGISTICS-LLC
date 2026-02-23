@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Join the PANDAS Global Logistics waitlist for early access to our cargo tracking platform.">
+  
+  <title>Join Waitlist - PANDAS Global Logistics</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: white;
+      text-align: center;
+      background: linear-gradient(rgba(10,30,60,0.95), rgba(10,30,60,0.98)),
+                  url('bg.jpg') no-repeat center center/cover;
+      background-attachment: fixed;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #0a1e3c 0%, #1a3a5c 100%);
+      z-index: -1;
+    }
+
+    .container {
+      max-width: 600px;
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      padding: 60px 40px;
+      border-radius: 20px;
+      backdrop-filter: blur(15px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    }
+
+    .logo {
+      width: 100px;
+      height: auto;
+      margin-bottom: 20px;
+    }
+
+    .logo-fallback {
+      display: inline-block;
+      width: 100px;
+      height: 100px;
+      background: rgba(245,180,0,0.2);
+      border-radius: 50%;
+      border: 3px solid #f5b400;
+      line-height: 100px;
+      font-size: 40px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 36px;
+      margin-bottom: 15px;
+      color: #f5b400;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+
+    .subtitle {
+      font-size: 18px;
+      margin-bottom: 30px;
+      color: rgba(255,255,255,0.9);
+    }
+
+    .features-list {
+      text-align: left;
+      margin: 30px 0;
+      background: rgba(255,255,255,0.03);
+      padding: 30px;
+      border-radius: 12px;
+    }
+
+    .features-list h3 {
+      color: #f5b400;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .features-list li {
+      margin: 15px 0;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .form-container {
+      margin-top: 40px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 15px;
+      border: 2px solid rgba(245,180,0,0.3);
+      border-radius: 10px;
+      background: rgba(255,255,255,0.1);
+      color: white;
+      font-size: 16px;
+      transition: all 0.3s;
+    }
+
+    input::placeholder {
+      color: rgba(255,255,255,0.5);
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: #f5b400;
+      background: rgba(255,255,255,0.15);
+    }
+
+    select {
+      cursor: pointer;
+    }
+
+    select option {
+      background: #0a1e3c;
+      color: white;
+    }
+
+    button {
+      width: 100%;
+      padding: 18px;
+      background: #f5b400;
+      border: none;
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #0a1e3c;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background: #ffc933;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(245,180,0,0.4);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 30px;
+      color: #f5b400;
+      text-decoration: none;
+      font-size: 16px;
+      transition: color 0.3s;
+    }
+
+    .back-link:hover {
+      color: #ffc933;
+      text-decoration: underline;
+    }
+
+    .success-message {
+      display: none;
+      background: rgba(76, 175, 80, 0.2);
+      border: 2px solid #4CAF50;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 20px;
+      color: #4CAF50;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 40px 25px;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+
+      .subtitle {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    
+    <img src="logo.png" alt="PANDAS Logo" class="logo" 
+         onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';">
+    <div class="logo-fallback" style="display:none;">🐼</div>
+
+    <h1>Join Our Waitlist</h1>
+    
+    <p class="subtitle">
+      Be among the first to access our revolutionary cargo tracking and verification platform.
+    </p>
+
+    <div class="features-list">
+      <h3>What You'll Get:</h3>
+      <ul>
+        <li>✅ Early access to tracking platform</li>
+        <li>✅ Live verification technology</li>
+        <li>✅ Real-time cargo visibility</li>
+        <li>✅ Fraud protection systems</li>
+        <li>✅ Special launch pricing</li>
+      </ul>
+    </div>
+
+    <div class="form-container">
+      <form id="waitlistForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        
+        <div class="form-group">
+          <input type="text" name="name" placeholder="Full Name *" required>
+        </div>
+
+        <div class="form-group">
+          <input type="email" name="email" placeholder="Email Address *" required>
+        </div>
+
+        <div class="form-group">
+          <input type="tel" name="phone" placeholder="Phone Number">
+        </div>
+
+        <div class="form-group">
+          <input type="text" name="company" placeholder="Company Name">
+        </div>
+
+        <div class="form-group">
+          <select name="user_type" required>
+            <option value="">I am a... *</option>
+            <option value="importer">Importer</option>
+            <option value="exporter">Exporter</option>
+            <option value="logistics_provider">Logistics Provider</option>
+            <option value="manufacturer">Manufacturer</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <select name="region">
+            <option value="">Region (Optional)</option>
+            <option value="east_africa">East Africa</option>
+            <option value="west_africa">West Africa</option>
+            <option value="north_america">North America</option>
+            <option value="asia">Asia</option>
+            <option value="europe">Europe</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <button type="submit">Join Waitlist 🚀</button>
+
+        <div class="success-message" id="successMessage">
+          ✅ Success! You're on the waitlist. We'll contact you soon!
+        </div>
+
+      </form>
+    </div>
+
+    <a href="index.html" class="back-link">← Back to Home</a>
+
+  </div>
+
+  <script>
+    // Form submission handling
+    const form = document.getElementById('waitlistForm');
+    const successMessage = document.getElementById('successMessage');
+
+    form.addEventListener('submit', function(e) {
+      // Show success message after submission
+      setTimeout(function() {
+        successMessage.style.display = 'block';
+        form.reset();
+      }, 1000);
+    });
+  </script>
+
+</body>
+</html>
