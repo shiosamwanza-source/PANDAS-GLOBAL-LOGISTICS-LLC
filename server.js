@@ -1,13 +1,12 @@
 // ============================================
 // PANDAS GLOBAL LOGISTICS - BACKEND SERVER
-// Production-Ready API with Database Integration
+// Production-Ready API (NO FRONTEND FILES)
 // Created by: Sadick Faraji Said
-// Date: February 14, 2026
+// Date: February 23, 2026
 // ============================================
 
 const express = require('express');
 const { Pool } = require('pg');
-const path = require('path');
 const cors = require('cors');
 require('dotenv').config();
 
@@ -38,24 +37,14 @@ pool.on('error', (err) => {
 // MIDDLEWARE
 // ============================================
 
-// Enable CORS for frontend
-app.use(cors({
-  origin: [
-    'https://pandas-global-logistics.onrender.com',
-    'http://localhost:3000',
-    'http://localhost:10000'
-  ],
-  credentials: true
-}));
+// Enable CORS for all origins
+app.use(cors());
 
 // Parse JSON bodies
 app.use(express.json());
 
 // Parse URL-encoded bodies
 app.use(express.urlencoded({ extended: true }));
-
-// Serve static files (frontend)
-app.use(express.static(path.join(__dirname, 'public')));
 
 // Request logging middleware
 app.use((req, res, next) => {
@@ -68,7 +57,31 @@ app.use((req, res, next) => {
 // API ROUTES
 // ============================================
 
-// Route 1: Health Check
+// Route 1: ROOT - API Welcome
+app.get('/', (req, res) => {
+  res.json({
+    platform: 'PANDAS Global Logistics',
+    tagline: 'The Infrastructure of Trust',
+    message: 'Welcome to PANDAS API - Eliminating import fraud in Africa through live verification',
+    status: 'operational',
+    version: '1.0.0',
+    endpoints: {
+      health: '/api/health - Health check with database status',
+      info: '/api/info - Platform information',
+      stats: '/api/stats - Database statistics',
+      test_db: '/api/test-db - Test database connection',
+      waitlist: 'POST /api/waitlist - Join waitlist',
+      users: '/api/users - Get users list'
+    },
+    documentation: 'https://github.com/shiosamwanza-source/PANDAS-GLOBAL-LOGISTICS-LLC',
+    contact: {
+      email: 'sadick.faraji@pandas-global.com',
+      website: 'https://www.pandas-global.com'
+    }
+  });
+});
+
+// Route 2: Health Check
 app.get('/api/health', async (req, res) => {
   try {
     // Test database connection
@@ -80,41 +93,55 @@ app.get('/api/health', async (req, res) => {
       timestamp: new Date().toISOString(),
       database: 'connected',
       server_time: result.rows[0].now,
-      version: '1.0.0'
+      version: '1.0.0',
+      environment: process.env.NODE_ENV || 'development'
     });
   } catch (error) {
+    console.error('Health check error:', error);
     res.status(500).json({
       status: 'error',
       message: 'Database connection failed',
+      database: 'disconnected',
       error: error.message
     });
   }
 });
 
-// Route 2: API Information
+// Route 3: API Information
 app.get('/api/info', (req, res) => {
   res.json({
     platform: 'PANDAS Global Logistics',
     tagline: 'The Infrastructure of Trust',
-    mission: 'Eliminate import fraud in Africa through live verification',
+    mission: 'Eliminate import fraud in Africa through live verification technology',
+    founded: 'January 27, 2026',
+    location: 'Houston, Texas → East Africa',
     version: '1.0.0',
     status: 'operational',
+    features: [
+      'DFA Technology - Digital Fingerprint Authentication',
+      'Live Verification - Real-time cargo inspection',
+      'Trade Protection - Fraud elimination systems',
+      'Port Management - Clearance and handling',
+      'Global Sourcing - Verified supplier network'
+    ],
     endpoints: [
+      'GET / - API welcome',
       'GET /api/health - Health check',
       'GET /api/info - API information',
       'GET /api/stats - Platform statistics',
       'POST /api/waitlist - Join waitlist',
-      'GET /api/users - List users (with auth)',
+      'GET /api/users - List users',
       'GET /api/test-db - Test database'
     ],
     contact: {
       email: 'sadick.faraji@pandas-global.com',
-      website: 'https://www.pandas-global.com'
+      website: 'https://www.pandas-global.com',
+      github: 'https://github.com/shiosamwanza-source/PANDAS-GLOBAL-LOGISTICS-LLC'
     }
   });
 });
 
-// Route 3: Platform Statistics
+// Route 4: Platform Statistics
 app.get('/api/stats', async (req, res) => {
   try {
     const usersCount = await pool.query('SELECT COUNT(*) FROM users');
@@ -124,6 +151,7 @@ app.get('/api/stats', async (req, res) => {
     
     res.json({
       success: true,
+      platform: 'PANDAS Global Logistics',
       statistics: {
         total_users: parseInt(usersCount.rows[0].count),
         total_agents: parseInt(agentsCount.rows[0].count),
@@ -145,7 +173,7 @@ app.get('/api/stats', async (req, res) => {
   }
 });
 
-// Route 4: Test Database Connection
+// Route 5: Test Database Connection
 app.get('/api/test-db', async (req, res) => {
   try {
     const result = await pool.query(`
@@ -176,7 +204,7 @@ app.get('/api/test-db', async (req, res) => {
   }
 });
 
-// Route 5: Waitlist Signup
+// Route 6: Waitlist Signup
 app.post('/api/waitlist', async (req, res) => {
   try {
     const { name, email, phone, company, user_type, region } = req.body;
@@ -198,9 +226,8 @@ app.post('/api/waitlist', async (req, res) => {
       });
     }
     
-    // Insert into database (you'll need to create waitlist table)
-    // For now, just log and return success
-    console.log('New waitlist signup:', { name, email, user_type });
+    // Log the signup (in production, save to database)
+    console.log('New waitlist signup:', { name, email, user_type, timestamp: new Date().toISOString() });
     
     res.json({
       success: true,
@@ -222,7 +249,7 @@ app.post('/api/waitlist', async (req, res) => {
   }
 });
 
-// Route 6: Get Users (Sample - needs authentication in production)
+// Route 7: Get Users
 app.get('/api/users', async (req, res) => {
   try {
     const result = await pool.query(`
@@ -256,20 +283,6 @@ app.get('/api/users', async (req, res) => {
 });
 
 // ============================================
-// FRONTEND ROUTES (Serve HTML)
-// ============================================
-
-// Serve main page
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
-// Serve waitlist page
-app.get('/track.html', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'track.html'));
-});
-
-// ============================================
 // ERROR HANDLING
 // ============================================
 
@@ -280,13 +293,15 @@ app.use((req, res) => {
     error: 'Endpoint not found',
     message: `Cannot ${req.method} ${req.path}`,
     available_endpoints: [
-      '/api/health',
-      '/api/info',
-      '/api/stats',
-      '/api/test-db',
+      'GET /',
+      'GET /api/health',
+      'GET /api/info',
+      'GET /api/stats',
+      'GET /api/test-db',
       'POST /api/waitlist',
-      '/api/users'
-    ]
+      'GET /api/users'
+    ],
+    hint: 'Visit / for API documentation'
   });
 });
 
@@ -315,23 +330,20 @@ app.listen(PORT, '0.0.0.0', () => {
   ║                                                ║
   ║   Server:    http://0.0.0.0:${PORT}            ║
   ║   Status:    ✅ LIVE                           ║
-  ║   Database:  ${process.env.DATABASE_URL ? '✅ CONNECTED' : '❌ NOT CONFIGURED'}        ║
+  ║   Database:  ${process.env.DATABASE_URL ? '✅ CONFIGURED' : '❌ NOT CONFIGURED'}      ║
   ║   Mode:      ${process.env.NODE_ENV || 'development'}                     ║
   ║   Version:   1.0.0                             ║
   ║                                                ║
   ╠════════════════════════════════════════════════╣
   ║                                                ║
   ║   API Endpoints:                               ║
-  ║   → /api/health                                ║
-  ║   → /api/info                                  ║
-  ║   → /api/stats                                 ║
-  ║   → /api/test-db                               ║
-  ║   → /api/waitlist (POST)                       ║
-  ║   → /api/users                                 ║
-  ║                                                ║
-  ║   Frontend:                                    ║
-  ║   → /                                          ║
-  ║   → /track.html                                ║
+  ║   → GET  /                                     ║
+  ║   → GET  /api/health                           ║
+  ║   → GET  /api/info                             ║
+  ║   → GET  /api/stats                            ║
+  ║   → GET  /api/test-db                          ║
+  ║   → POST /api/waitlist                         ║
+  ║   → GET  /api/users                            ║
   ║                                                ║
   ╚════════════════════════════════════════════════╝
   
